@@ -1,0 +1,90 @@
+# Managed by Puppet. All local changes will be overwritten.
+#
+# # # # # # # # # # # # # # # # # #
+# Gitlab application config file  #
+# # # # # # # # # # # # # # # # # #
+
+#
+# 1. Common settings
+# ==========================
+
+# Web application specific settings
+web:
+  host: <%= scope.lookupvar("gitlab::host") %>
+  port: <%= scope.lookupvar("gitlab::port") %>
+  https: true
+
+# Email used for notification
+# about new issues, comments
+email:
+  from: notify@localhost
+
+# Application specific settings
+# Like default project limit for user etc
+app:
+  default_projects_limit: <%= scope.lookupvar("gitlab::project_limit") %>
+  # backup_path: "/vol/backups"   # default: Rails.root + backups/
+  # backup_keep_time: 604800      # default: 0 (forever) (in seconds)
+  # disable_gravatar: true        # default: false - Disable user avatars from Gravatar.com
+
+
+#
+# 2. Auth settings
+# ==========================
+ldap: 
+  enabled:  '<%= scope.lookupvar("gitlab::auth_enabled") %>'
+  host:     '<%= scope.lookupvar("gitlab::auth_host") %>'
+  base:     '<%= scope.lookupvar("gitlab::auth_base") %>'
+  port:     '<%= scope.lookupvar("gitlab::auth_port") %>'
+  uid:      '<%= scope.lookupvar("gitlab::auth_uid") %>'
+  method:   '<%= scope.lookupvar("gitlab::auth_method") %>'
+  bind_dn:  '<%= scope.lookupvar("gitlab::auth_binddn") %>'
+  password: '<%= scope.lookupvar("gitlab::auth_pass") %>'
+
+omniauth:
+  # Enable ability for users
+  # to login via twitter, google ..
+  enabled: false
+
+  # IMPORTANT! 
+  # It allows user to login without having user account
+  allow_single_sign_on: false
+  block_auto_created_users: true
+
+  # Auth providers 
+  providers:
+    # - { name: 'google_oauth2', app_id: 'YOUR APP ID',
+    #     app_secret: 'YOUR APP SECRET',
+    #     args: { access_type: 'offline', approval_prompt: '' } }
+    # - { name: 'twitter', app_id: 'YOUR APP ID',
+    #     app_secret: 'YOUR APP SECRET'}
+    # - { name: 'github', app_id: 'YOUR APP ID',
+    #     app_secret: 'YOUR APP SECRET' }
+
+
+#
+# 3. Advanced settings:
+# ==========================
+
+# Git Hosting configuration
+git_host:
+  admin_uri: git@localhost:gitolite-admin
+  base_path: /home/git/repositories/
+  hooks_path: /home/git/.gitolite/hooks/
+  gitolite_admin_key: gitlab 
+  git_user: git
+  upload_pack: true
+  receive_pack: true
+  # host: localhost
+  # port: 22
+
+# Git settings
+# Use default values unless you understand it
+git:
+  path: /usr/bin/git
+  # Max size of git object like commit, in bytes
+  # This value can be increased if you have a very large commits
+  git_max_size: 5242880 # 5.megabytes
+  # Git timeout to read commit, in seconds
+  git_timeout: 10
+

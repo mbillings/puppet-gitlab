@@ -1,0 +1,47 @@
+# Managed by Puppet. All local changes will be overwritten.
+PassengerHighPerformance on
+PassengerMaxPoolSize 4
+PassengerPoolIdleTime 0
+PassengerStatThrottleRate 120
+
+<VirtualHost <%= scope.lookupvar("gitlab::host_ip") %>:<%= scope.lookupvar("gitlab::http_port") %>>
+        ServerName <%= scope.lookupvar("gitlab::host)" %>
+        DocumentRoot <%= scope.lookupvar("gitlab::web_prefix_dir") %>/gitlab/public
+        ServerAdmin <%= scope.lookupvar("gitlab::mail") %>
+
+        RewriteEngine on
+        RewriteRule ^/(.*)$ https://<%= scope.lookupvar("gitlab::host") %>/$1 [R,L]
+
+</VirtualHost>
+<VirtualHost <%= scope.lookupvar("gitlab::host_ip") %>:<%= scope.lookupvar("gitlab::ssl_port") %>>
+        ServerName <%= scope.lookupvar("gitlab::host") %>
+        DocumentRoot <%= scope.lookupvar("gitlab::web_prefix_dir") %>/gitlab/public
+        ServerAdmin <%= scope.lookupvar("gitlab::mail") %>
+
+        <Location / >
+                ProxyPass http://127.0.0.1:<%= scope.lookupvar("gitlab::proxy_port") %>/
+                ProxyPassReverse http://127.0.0.1:<%= scope.lookupvar("gitlab::proxy_port") %>/
+                RewriteRule ^/ https://<%= scope.lookupvar("gitlab::host") %>/ [R,L]
+                RewriteRule ^/(.*)$ _https://<%= scope.lookupvar("gitlab::host") %>/$1 [R,L]
+                #Ensure Apache informs Unicorn that we is usin https
+                RequestHeader set X-Forwarded-Proto "https"
+        </Location>
+
+        RackBaseURI /
+
+        <Directory <%= scope.lookupvar("gitlab::web_prefix_dir") %>/gitlab/public>
+               Order allow,deny
+               Allow from all
+               AllowOverride all
+               Options -MultiViews
+        </Directory>
+
+        SSLEngine On
+        SSLCertificateFile      /etc/pki/tls/certs/<%= scope.lookupvar("gitlab::host") %>.cert.cer
+        SSLCertificateKeyFile   /etc/pki/tls/private/<%= scope.lookupvar("gitlab::host") %>.key
+        SSLCertificateChainFile /etc/pki/tls/certs/<%= scope.lookupvar("gitlab::host") %>.interm.cer
+        SSLVerifyClient         optional
+        SSLOptions              +StdEnvVars
+        SSLVerifyDepth          3
+</VirtualHost>
+
