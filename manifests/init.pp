@@ -35,6 +35,7 @@ class gitlab
 
 ) inherits gitlab::params {
   	include gitlab::install
+  	include gitlab::config
   	#include gitlab::stages
   	#include gitlab::realizeusers
 

@@ -34,7 +34,7 @@ class gitlab::config
 
   # parameterize the RVM version for installation
   exec { "Install RVM":
-         command => "curl -L https://get.rvm.io | bash -s stable && rvm install 1.9.3 && rvm use 1.9.3 --default && rvm user gemsets",
+         command => "curl -L https://get.rvm.io | bash -s stable --ruby && rvm install 1.9.3 && rvm use 1.9.3 --default && rvm user gemsets",
          path    => "/bin/:/usr/bin/:/usr/local/rvm/bin/",
          onlyif  => "test `rvm -v 2</dev/null | wc -l` -eq 0",
        }
@@ -156,13 +156,14 @@ class gitlab::config
 
   exec { "Configure git":
          user    => "gitlab",
+         cwd     => "/home/gitlab",
          command => "git config --global user.name \"GitLab\" && git config --global user.email \"gitlab@localhost\"",
          path    => "/usr/bin/",
          onlyif  => "test `git config -f /home/gitlab/.git/config -l | grep 'gitlab@' | wc -l` -eq 0",
        }
 
 
-  Exec["Create EPEL repo"] -> 
+  #Exec["Create EPEL repo"] -> 
   Service["redis"] -> 
   Service["mysqld"] -> 
   Exec["Install RVM"] -> 

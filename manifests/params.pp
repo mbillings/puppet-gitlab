@@ -6,12 +6,12 @@
 
 class gitlab::params
 {
-  $auth_base      = 'dc=COM'
-  $auth_binddn    = 'CN=user,CN=Users,DC=host,DC=com'
+  $auth_base      = 'dc=EDU'
+  $auth_binddn    = 'CN=bigbro,CN=Users,DC=col,DC=missouri,DC=edu'
   $auth_enabled   = 'true'
-  $auth_host      = 'ldap.host.com'
+  $auth_host      = 'ldap.missouri.edu'
   $auth_method    = 'ssl'
-  $auth_pass      = 'OMGWTFBBQ'
+  $auth_pass      = '.b16Br0+'
   $auth_port      = '3269'
   $auth_uid       = 'sAMAccountName'
   $db_adapter     = 'mysql2'
@@ -21,10 +21,10 @@ class gitlab::params
   $db_pool        = '5'
   $db_reconnect   = 'false'
   $db_user        = 'gitlab'
-  $host           = 'gitlab.host.com'
-  $host_ip        = '10.10.10.10'
+  $host           = 'mbtest.missouri.edu'
+  $host_ip        = '128.206.0.153'
   $http_port      = '80'
-  $mail           = 'linux@host.com'
+  $mail           = 'linux@missouri.edu'
   $project_limit  = '20'
   $proxy_port     = '8080'
   $ssl_port       = '443'
@@ -41,6 +41,10 @@ class gitlab::params
 #    nginx => '/etc/nginx/conf.d/gitlab.conf',
 #    #nginx => '/etc/nginx/nginx.conf',
 #  }
+#  $easy_install=
+#  [ 
+#    "pip", 
+#  ]
 
   $gems=
   [ 
@@ -66,8 +70,9 @@ class gitlab::params
     "curl",
     "gcc",
     "gcc-c++",
-    "git-core",
-    "iconv-dev",
+    "git",
+    #"git-core",
+    #"iconv-dev",
     "libcurl",
     "libcurl-devel",
     "libffi-devel",
@@ -89,15 +94,18 @@ class gitlab::params
     "patch",
     "postfix",
     "python-devel",
-    "python-pip",
+    #"python-pip",
+    "python-setuptools",
     "readline",
     "readline-devel",
     "redis",
+    "ruby",
+    "ruby-devel",
     "rubygems",
     "${web_service}",
     "wget",
     "zlib",
-    "zlib1g-dev",
+    #"zlib1g-dev",
     "zlib-devel",
   ]
 }
