@@ -2,7 +2,6 @@
 #
 # Installs necessary packages for gitlab
 # Modify variables as necessary for your install
-# This assumes you are configuring logins via LDAP
 #
 
 class gitlab::params
@@ -12,13 +11,13 @@ class gitlab::params
   $auth_enabled   = 'true'
   $auth_host      = 'ldap.host.com'
   $auth_method    = 'ssl'
-  $auth_pass      = 'OMGWTFBBQ'
+  $auth_pass      = '.OMGWTFBBQ'
   $auth_port      = '3269'
   $auth_uid       = 'sAMAccountName'
   $db_adapter     = 'mysql2'
   $db_encoding    = 'utf8'
   $db_name        = 'gitlabhq_production'
-  $db_pass        = 'omgggg.pa$aw3#rd3D'
+  $db_pass        = 'omg'
   $db_pool        = '5'
   $db_reconnect   = 'false'
   $db_user        = 'gitlab'
@@ -31,8 +30,8 @@ class gitlab::params
   $ssl_port       = '443'
   # Web service: comment/uncomment as desired, only one can be defined at a time
   $web_doc_root   = '/var/www/html/gitlab'
-  #$web_service    = 'httpd'
-  $web_service    = 'nginx'
+  $web_service    = 'httpd'
+  #$web_service    = 'nginx'
 
   # Nginx default config file must be overwritten for unicorn compatibility :(
   # Apache can use a vhost
@@ -47,22 +46,29 @@ class gitlab::params
   [ 
     "bundler", 
     "charlock_holmes", 
+	"grit",
+	"passenger",
+    "rails",
+    "rake",
     "unicorn",
   ]
 
-  # Name-specific vairables
-  $server_name      = 'servernamehere' 
-
   $rpms=
   [ 
+    "apr-devel",
+    "apr-util-devel",
     "autoconf",
     "automake",
     "bison",
+    "byacc",
     "bzip2",
     "curl",
+    "curl-devel",
     "gcc",
     "gcc-c++",
+    "gdbm-devel",
     "git",
+    "httpd-devel",
     "libcurl",
     "libcurl-devel",
     "libffi-devel",
@@ -90,6 +96,7 @@ class gitlab::params
     "readline-devel",
     "redis",
     "rubygems",
+    "tcl-devel",
     "${web_service}",
     "wget",
     "zlib",
