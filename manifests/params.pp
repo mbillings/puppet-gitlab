@@ -21,12 +21,14 @@ class gitlab::params
   $db_pool        = '5'
   $db_reconnect   = 'false'
   $db_user        = 'gitlab'
+  $gitlab_fork    = 'gl-v320'
   $host           = 'gitlab.host.com'
   $host_ip        = '10.10.10.10'
   $http_port      = '80'
   $mail           = 'linux@host.com'
-  $project_limit  = '20'
+  $project_limit  = '100'
   $proxy_port     = '8080'
+  $ruby_version   = '1.9.3-p327'
   $ssl_port       = '443'
   # Web service: comment/uncomment as desired, only one can be defined at a time
   $web_doc_root   = '/var/www/html/gitlab'
@@ -42,16 +44,15 @@ class gitlab::params
 #    #nginx => '/etc/nginx/nginx.conf',
 #  }
 
-  $gems=
-  [ 
-    "bundler", 
-    "charlock_holmes", 
-	"grit",
-	"passenger",
-    "rails",
-    "rake",
-    "unicorn",
-  ]
+#  $gems=
+#  [ 
+#    "bundler", 
+#    "charlock_holmes", 
+#	"grit",
+#    "rails",
+#    "rake",
+#    "unicorn",
+#  ]
 
   $rpms=
   [ 
