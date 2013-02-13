@@ -36,11 +36,18 @@ class gitlab::config {
             subscribe  => Package['redis'],
           }
 
+  # Only needed once so rvm can be installed by [gitlab] the rvm group. This will be overwritten by a puppet run
+  exec { "Temporary sudo for rvm group":
+         command => "echo '%rvm    ALL=NOPASSWD: ALL' >> /etc/sudoers",
+         onlyif  => "test `grep rvm /etc/sudoers | grep -v grep | wc -l` -eq 0",
+         path    => "/bin/:/usr/bin/";
+       } 
+
   # eventually parameterize the RVM version for installation
   # gitlab is finicky and requires a specific version of ruby as of 4.0
   # there was a syntax change between p327 and p374 (most recent) that 
   #  causes gitlab to fail when raking. Hopefully this will be fixed in
-  #  future gitlab releases...?
+  #  future gitlab releases?
   exec { "Install RVM":
        # provider => "shell",
          user        => "gitlab",
