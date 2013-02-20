@@ -5,8 +5,8 @@ PassengerPoolIdleTime 0
 PassengerStatThrottleRate 120
 
 <VirtualHost <%= scope.lookupvar("gitlab::host_ip") %>:<%= scope.lookupvar("gitlab::http_port") %>>
-        ServerName <%= scope.lookupvar("gitlab::host)" %>
-        DocumentRoot <%= scope.lookupvar("gitlab::web_prefix_dir") %>/gitlab/public
+        ServerName <%= scope.lookupvar("gitlab::host") %>
+        DocumentRoot <%= scope.lookupvar("gitlab::web_doc_root") %>/public
         ServerAdmin <%= scope.lookupvar("gitlab::mail") %>
 
         RewriteEngine on
@@ -15,7 +15,7 @@ PassengerStatThrottleRate 120
 </VirtualHost>
 <VirtualHost <%= scope.lookupvar("gitlab::host_ip") %>:<%= scope.lookupvar("gitlab::ssl_port") %>>
         ServerName <%= scope.lookupvar("gitlab::host") %>
-        DocumentRoot <%= scope.lookupvar("gitlab::web_prefix_dir") %>/gitlab/public
+        DocumentRoot <%= scope.lookupvar("gitlab::web_doc_root") %>/public
         ServerAdmin <%= scope.lookupvar("gitlab::mail") %>
 
         <Location / >
@@ -29,7 +29,7 @@ PassengerStatThrottleRate 120
 
         RackBaseURI /
 
-        <Directory <%= scope.lookupvar("gitlab::web_prefix_dir") %>/gitlab/public>
+        <Directory <%= scope.lookupvar("gitlab::web_doc_root") %>/public>
                Order allow,deny
                Allow from all
                AllowOverride all
@@ -39,7 +39,7 @@ PassengerStatThrottleRate 120
         SSLEngine On
         SSLCertificateFile      /etc/pki/tls/certs/<%= scope.lookupvar("gitlab::host") %>.cert.cer
         SSLCertificateKeyFile   /etc/pki/tls/private/<%= scope.lookupvar("gitlab::host") %>.key
-        SSLCertificateChainFile /etc/pki/tls/certs/<%= scope.lookupvar("gitlab::host") %>.interm.cer
+#        SSLCertificateChainFile /etc/pki/tls/certs/<%= scope.lookupvar("gitlab::host") %>.interm.cer
         SSLVerifyClient         optional
         SSLOptions              +StdEnvVars
         SSLVerifyDepth          3

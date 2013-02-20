@@ -15,9 +15,9 @@ class gitlab::install
   	require => Package["epel-release"]
   }
 
-  package { $gitlab::params::gems: 
-  	ensure   => installed,
-  	provider => gem,
-  	require  => [Package[$gitlab::params::rpms], Package["epel-release"]]
-  }
+#  package { $gitlab::params::gems: 
+#  	ensure   => installed,
+#  	provider => gem,
+#  	require  => [Package[$gitlab::params::rpms], Package["epel-release"]]
+#  }
 }

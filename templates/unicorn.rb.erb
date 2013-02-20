@@ -14,7 +14,7 @@ timeout 30
 # listen on a Unix domain socket and/or a TCP port,
 
 #listen 8080 # listen to port 8080 on all TCP interfaces
-listen "127.0.0.1:<%= @proxy_port %>"  # listen to port 8080 on the loopback interface
+listen "127.0.0.1:<%= scope.lookupvar("gitlab::proxy_port") %>"
 #listen "#{app_dir}/tmp/sockets/gitlab.socket"
 
 pid "#{app_dir}/tmp/pids/unicorn.pid"
@@ -64,4 +64,3 @@ after_fork do |server, worker|
   # Redis and Memcached would go here but their connections are established
   # on demand, so the master never opens a socket
 end
-
